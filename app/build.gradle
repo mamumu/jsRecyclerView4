@@ -4,21 +4,13 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mumu.jsrecyclerview4"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-
-        debug {
-            //versionNameSuffix
-            versionNameSuffix "_内测"
-
-            //applicationIdSuffix-测试版本使用debug作为后缀
-            applicationIdSuffix "debug"
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
