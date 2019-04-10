@@ -1,15 +1,39 @@
 package com.mumu.jsrecyclerview4;
 
 
-import com.chad.library.adapter.base.entity.SectionEntity;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class TestEntity implements Serializable {
 
+//    {
+//        "Result":[
+//        {
+//            "list":[
+//            {
+//                "message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"
+//            },
+//            {
+//                "message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"
+//            }
+//            ],
+//            "title":"我有一只小狗"
+//        },
+//        {
+//            "list":[
+//            {
+//                "message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"
+//            }
+//            ],
+//            "title":"我有一只小狗"
+//        }
+//    ],
+//        "Success":true,
+//            "StatusCode":200
+//    }
+
     /**
-     * Result : [{"list":[{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}],"title":"我有一只小狗"},{"list":[{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}],"title":"我有一只小狗"}]
+     * Result : [{"list":[{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"},{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}],"title":"我有一只小狗"},{"list":[{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}],"title":"我有一只小狗"}]
      * Success : true
      * StatusCode : 200
      */
@@ -38,27 +62,18 @@ public class TestEntity implements Serializable {
         return Result;
     }
 
-    public void setResult(List<ResultBean> result) {
-        Result = result;
+    public void setResult(List<ResultBean> Result) {
+        this.Result = Result;
     }
 
-    public static class ResultBean extends SectionEntity<ResultBean.ListBean> {
+    public static class ResultBean {
         /**
-         * list : [{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}]
+         * list : [{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"},{"message":"我有一只小狗我有一只小狗我有一只小狗我有一只小狗"}]
          * title : 我有一只小狗
          */
 
         private String title;
         private List<ListBean> list;
-
-        public ResultBean(boolean isHeader, String header, String title) {
-            super(isHeader, header);
-            this.title = title;
-        }
-
-        public ResultBean(ListBean listBean) {
-            super(listBean);
-        }
 
         public String getTitle() {
             return title;
@@ -77,10 +92,6 @@ public class TestEntity implements Serializable {
         }
 
         public static class ListBean {
-            public ListBean(String message) {
-                this.message = message;
-            }
-
             /**
              * message : 我有一只小狗我有一只小狗我有一只小狗我有一只小狗
              */

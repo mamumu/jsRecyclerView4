@@ -16,21 +16,24 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
     @BindView(R.id.rv_test)
     RecyclerView rvTest;
     @BindView(R.id.srl_test)
     SmartRefreshLayout srlTest;
+
     private TestAdapter mTestAdapter;
-    private ArrayList<TestEntity.ResultBean.ListBean> mTestList=new ArrayList<>();
-    private ArrayList<TestEntity.ResultBean> mTestList1=new ArrayList<TestEntity.ResultBean>();
-    private TestEntity mTestEntity=new TestEntity();
+    private ArrayList<TestEntity.ResultBean> mResult=new ArrayList<>();
+    private ArrayList<SectionTestEntity> sectionTestEntity;
     private Unbinder unbinder;
 
     @Override
@@ -38,8 +41,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-
+        initData();
         initView();
+    }
+
+    /**
+     * 模拟后台数据返回
+     */
+    private void initData() {
+        for (int i = 0; i < 2; i++) {
+            TestEntity.ResultBean resultBean = new TestEntity.ResultBean();
+            resultBean.setTitle("标题" + i);
+            List<TestEntity.ResultBean.ListBean> list = new ArrayList<>();
+            for (int j = 0; j < 3; j++) {
+                TestEntity.ResultBean.ListBean listBean = new TestEntity.ResultBean.ListBean();
+                listBean.setMessage("内容" + j);
+                list.add(listBean);
+            }
+            resultBean.setList(list);
+            mResult.add(resultBean);
+        }
     }
 
     private void initView() {
@@ -74,17 +95,18 @@ public class MainActivity extends AppCompatActivity {
         mTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                TestEntity.ResultBean resultBean = mTestEntity.getResult().get(position);
-                if(resultBean.isHeader){
-                    Toast.makeText(MainActivity.this, "我点击了第" + position + "个header",
+                SectionTestEntity s=sectionTestEntity.get(position);
+                if(s.isHeader){
+                    Toast.makeText(MainActivity.this, s.header,
                             Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(MainActivity.this, "我点击了第" + position + "个子view",
+                    Toast.makeText(MainActivity.this, s.t.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
+
     }
 
     /**
@@ -105,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 //上拉加载，一般添加调用接口获取更多数据的方法
                 getData(3);
                 //结束上拉加载，展示没有更多数据
-                refreshLayout.finishLoadMoreWithNoMoreData();
+//                refreshLayout.finishLoadMoreWithNoMoreData();
+                //结束上拉加载
+                refreshLayout.finishLoadMore();
             }
         });
     }
@@ -122,29 +146,29 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 break;
             case 2:
-                mTestList1.clear();
-                mTestList1.add(new TestEntity.ResultBean(true,null,"我有一只小狗"));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(true,null,"我有一只小狗"));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestEntity.setResult(mTestList1);
+                sectionTestEntity=new ArrayList<>();
+                for(int i=0;i<mResult.size();i++){
+                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle());
+                    sectionTestEntity.add(header);
+                    for(int j=0;j<mResult.get(i).getList().size();j++){
+                        SectionTestEntity content=new SectionTestEntity(mResult.get(i).getList().get(j));
+                        sectionTestEntity.add(content);
+                    }
+                }
                 //更新数据
-                mTestAdapter.setNewData(mTestEntity.getResult());
+                mTestAdapter.setNewData(sectionTestEntity);
                 break;
             case 3:
-                mTestList1.add(new TestEntity.ResultBean(true,null,"我有一只小狗"));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(true,null,"我有一只小狗"));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestList1.add(new TestEntity.ResultBean(new TestEntity.ResultBean.ListBean("我有一个小狗我有一个小狗我有一个小狗我有一个小狗我有一个小狗")));
-                mTestEntity.setResult(mTestList1);
+                for(int i=0;i<mResult.size();i++){
+                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle());
+                    sectionTestEntity.add(header);
+                    for(int j=0;j<mResult.get(i).getList().size();j++){
+                        SectionTestEntity content=new SectionTestEntity(mResult.get(i).getList().get(j));
+                        sectionTestEntity.add(content);
+                    }
+                }
                 //更新数据
-                mTestAdapter.setNewData(mTestEntity.getResult());
+                mTestAdapter.setNewData(sectionTestEntity);
                 break;
         }
     }
