@@ -91,22 +91,27 @@ public class MainActivity extends AppCompatActivity{
         rvTest.setAdapter(mTestAdapter);
         //5，给recyclerView设置空布局
         mTestAdapter.setEmptyView(emptyView);
-        //6，给recyclerView的每一个子列表添加点击事件
+        //6，给recyclerView的每一个子列表添加点击事件，在内部区分是不是头部或者子列表
         mTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 SectionTestEntity s=sectionTestEntity.get(position);
                 if(s.isHeader){
-                    Toast.makeText(MainActivity.this, s.header,
+                    Toast.makeText(MainActivity.this, "点击了第"+position+s.header,
                             Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(MainActivity.this, s.t.getMessage(),
+                    Toast.makeText(MainActivity.this, "点击了第"+position+s.t.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-
+        mTestAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(MainActivity.this, "点击了第"+position+"onItemChildClick" + position, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity{
             case 2:
                 sectionTestEntity=new ArrayList<>();
                 for(int i=0;i<mResult.size();i++){
-                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle());
+                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle(),true);
                     sectionTestEntity.add(header);
                     for(int j=0;j<mResult.get(i).getList().size();j++){
                         SectionTestEntity content=new SectionTestEntity(mResult.get(i).getList().get(j));
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case 3:
                 for(int i=0;i<mResult.size();i++){
-                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle());
+                    SectionTestEntity header=new SectionTestEntity(true,mResult.get(i).getTitle(),true);
                     sectionTestEntity.add(header);
                     for(int j=0;j<mResult.get(i).getList().size();j++){
                         SectionTestEntity content=new SectionTestEntity(mResult.get(i).getList().get(j));

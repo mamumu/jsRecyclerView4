@@ -18,12 +18,13 @@ public class TestAdapter extends BaseSectionQuickAdapter<SectionTestEntity, Base
     @Override
     protected void convertHead(BaseViewHolder helper, SectionTestEntity item) {
         helper.setText(R.id.test_item_title, item.header);
-
+        helper.setVisible(R.id.more, item.isMore());
+        helper.addOnClickListener(R.id.more);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, SectionTestEntity item) {
-        TestEntity.ResultBean.ListBean listBean= item.t;
+        TestEntity.ResultBean.ListBean listBean = item.t;
         helper.setText(R.id.test_item_message, listBean.getMessage());
 
     }

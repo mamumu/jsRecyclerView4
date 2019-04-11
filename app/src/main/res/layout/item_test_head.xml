@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
@@ -16,4 +16,15 @@
         android:text="我爱小狗"
         android:textColor="@color/colorAccent"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingRight="10dp"
+        android:gravity="right|center"
+        android:textColor="@color/colorAccent"
+        android:text="more >"
+        android:textSize="18sp"/>
 </LinearLayout>
