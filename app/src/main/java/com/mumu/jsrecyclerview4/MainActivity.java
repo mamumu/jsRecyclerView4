@@ -24,6 +24,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * @author : zlf
+ * date    : 2019/4/15
+ * github  : https://github.com/mamumu
+ * blog    : https://www.jianshu.com/u/281e9668a5a6
+ */
 public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.rv_test)
@@ -51,11 +57,11 @@ public class MainActivity extends AppCompatActivity{
     private void initData() {
         for (int i = 0; i < 2; i++) {
             TestEntity.ResultBean resultBean = new TestEntity.ResultBean();
-            resultBean.setTitle("标题" + i);
+            resultBean.setTitle("我有一只小狗" + i);
             List<TestEntity.ResultBean.ListBean> list = new ArrayList<>();
             for (int j = 0; j < 3; j++) {
                 TestEntity.ResultBean.ListBean listBean = new TestEntity.ResultBean.ListBean();
-                listBean.setMessage("内容" + j);
+                listBean.setMessage("我有一只小狗我有一只小狗我有一只小狗我有一只小狗" + j);
                 list.add(listBean);
             }
             resultBean.setList(list);
